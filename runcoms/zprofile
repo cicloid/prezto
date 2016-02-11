@@ -1,9 +1,6 @@
 #
 # Executes commands at login pre-zshrc.
 #
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
 
 #
 # Browser
@@ -17,8 +14,8 @@ fi
 # Editors
 #
 
-export EDITOR='nano'
-export VISUAL='nano'
+export EDITOR='vim'
+export VISUAL='vim'
 export PAGER='less'
 
 #
@@ -27,6 +24,7 @@ export PAGER='less'
 
 if [[ -z "$LANG" ]]; then
   export LANG='en_US.UTF-8'
+  export LC_ALL='en_US.UTF-8'
 fi
 
 #
@@ -41,10 +39,16 @@ typeset -gU cdpath fpath mailpath path
 #   $cdpath
 # )
 
+export GOPATH=$HOME/go
+
 # Set the list of directories that Zsh searches for programs.
 path=(
   /usr/local/{bin,sbin}
+  /usr/local/opt/go/libexec/bin
   $path
+  $GOPATH/bin
+  ~/bin
+  /Applications/Postgres.app/Contents/Versions/latest/bin
 )
 
 #
@@ -72,3 +76,31 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
+
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+. `brew --prefix`/etc/profile.d/z.sh
+
+alias dokku='$HOME/.dokku/contrib/dokku_client.sh'
+
+eval "$(direnv hook zsh)"
+
+export DOKKU_HOST="31415.ninja"
+
+# VirtualEnv's
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+alias v='workon'
+alias v.deactivate='deactivate'
+alias v.mk='mkvirtualenv --no-site-packages'
+alias v.mk_withsitepackages='mkvirtualenv'
+alias v.rm='rmvirtualenv'
+alias v.switch='workon'
+alias v.add2virtualenv='add2virtualenv'
+alias v.cdsitepackages='cdsitepackages'
+alias v.cd='cdvirtualenv'
+alias v.lssitepackages='lssitepackages'
+
+
