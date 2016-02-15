@@ -5,6 +5,18 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #   Zeh Rizzatti <zehrizzatti@gmail.com>
 #
+#
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  if [[ -s "$(brew --prefix nvm)/nvm.sh" ]]; then
+    export NVM_DIR=~/.nvm
+    source $(brew --prefix nvm)/nvm.sh
+  elif [[ -s "$HOME/.nvm/nvm.sh" ]]; then
+    source "$HOME/.nvm/nvm.sh"
+  else
+    return 1
+  fi
+fi
 
 # Load manually installed NVM into the shell session.
 if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
